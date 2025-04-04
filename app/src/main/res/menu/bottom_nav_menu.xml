@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Календарь -->
+    <item
+        android:id="@+id/nav_calendar"
+        android:icon="@drawable/ic_calendar"
+    android:title="Календарь" />
+
+    <!-- Навигация -->
+    <item
+        android:id="@+id/nav_navigation"
+        android:icon="@drawable/ic_navigation"
+    android:title="Навигация" />
+
+    <!-- ISU -->
+    <item
+        android:id="@+id/nav_isu"
+        android:icon="@drawable/ic_isu"
+    android:title="ИСУ" />
+
+    <!-- Сервисы -->
+    <item
+        android:id="@+id/nav_services"
+        android:icon="@drawable/ic_services"
+    android:title="Сервисы" />
+
+</menu>
