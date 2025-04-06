@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <!-- Левая часть: Название и заметка -->
+        <!-- Левая часть: Название, аудитория + заметка -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -1,5 +1,6 @@
-package com.example.smtuapp;
+package com.example.smtuapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.LinearLayout;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.smtuapp.R;
 import com.example.smtuapp.adapters.SubjectAdapter;
 import com.example.smtuapp.models.Subject;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,6 +21,7 @@ import java.util.List;
 
 public class ScheduleActivity extends AppCompatActivity implements SubjectAdapter.OnNoteClickListener {
 
+    private static final int REQUEST_CODE_ADD_NOTE = 1;
     private RecyclerView recyclerView;
     private SubjectAdapter adapter;
     private List<Subject> subjectList;
@@ -83,7 +87,7 @@ public class ScheduleActivity extends AppCompatActivity implements SubjectAdapte
 
         // Добавление дней недели в карусель
         //TODO ЛОМАЕТ ПРИЛОЖЕНИЕ
-        addDaysToCarousel();
+//        addDaysToCarousel();
     }
 
     private void addDaysToCarousel() {
@@ -116,17 +120,44 @@ public class ScheduleActivity extends AppCompatActivity implements SubjectAdapte
 
     private List<Subject> getDummySubjects() {
         List<Subject> list = new ArrayList<>();
-        list.add(new Subject("Математика", "205", "08:30", "10:00", ""));
-        list.add(new Subject("Физика", "301", "10:10", "11:40", ""));
-        list.add(new Subject("Программирование", "101", "11:50", "13:20", "Подготовиться к лабе"));
+        list.add(new Subject("Математика", "205", "Добавить заметку", "8:30", "10:00"));
+        list.add(new Subject("Физика", "301", "Добавить заметку", "10:10", "11:40"));
+        list.add(new Subject("Программирование", "101", "Добавить заметку", "11:50", "13:20"));
         return list;
     }
 
+//    @Override
+//    public void onNoteClick(int position) {
+//        Subject subject = subjectList.get(position);
+//        Toast.makeText(this, "Заметка для: " + subject.getName(), Toast.LENGTH_SHORT).show();
+//
+//        // TODO: запускать активити редактирования заметкокк
+//    }
     @Override
     public void onNoteClick(int position) {
         Subject subject = subjectList.get(position);
-        Toast.makeText(this, "Заметка для: " + subject.getName(), Toast.LENGTH_SHORT).show();
 
-        // TODO: запускать активити редактирования заметкокк
+        Intent intent = new Intent(this, AddNoteActivity.class);
+        intent.putExtra("subject_position", position); // передаём позицию, чтобы знать, к какой паре добавлять заметку
+        startActivityForResult(intent, REQUEST_CODE_ADD_NOTE);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK) {
+            int position = data.getIntExtra("subject_position", -1);
+            String noteText = data.getStringExtra("note");
+
+            if (position != -1 && noteText != null) {
+                subjectList.get(position).setNote(noteText);
+                adapter.notifyItemChanged(position);
+                Toast.makeText(this, "Заметка успешно сохранена", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
 }

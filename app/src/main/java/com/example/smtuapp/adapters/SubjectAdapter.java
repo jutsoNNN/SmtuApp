@@ -21,7 +21,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     private final List<Subject> subjectList;
     private final OnNoteClickListener noteClickListener;
 
-    // бработка клика на кнопку заметки
+    // Интерфейс для обработки клика по кнопке заметки
     public interface OnNoteClickListener {
         void onNoteClick(int position);
     }
@@ -36,7 +36,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     @Override
     public SubjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.subject_item, parent, false);
-        return new SubjectViewHolder(view, noteClickListener);
+        return new SubjectViewHolder(view);
     }
 
     @Override
@@ -48,12 +48,16 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         holder.tvStartTime.setText(subject.getStartTime());
         holder.tvEndTime.setText(subject.getEndTime());
 
-        // Есть или нет заметкф
-        if (subject.getNote() != null && !subject.getNote().isEmpty()) {
-            holder.btnNote.setText(subject.getNote());
-        } else {
-            holder.btnNote.setText("Добавить заметку");
-        }
+        // Показываем текст заметки или предложение добавить новую
+        String note = subject.getNote();
+        holder.btnNote.setText((note != null && !note.isEmpty()) ? note : "Добавить заметку");
+
+        // Обработка клика на кнопку заметки
+        holder.btnNote.setOnClickListener(v -> {
+            if (noteClickListener != null && holder.getAdapterPosition() != RecyclerView.NO_POSITION) {
+                noteClickListener.onNoteClick(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
@@ -61,27 +65,18 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         return subjectList.size();
     }
 
+    // ViewHolder для элемента расписания
     public static class SubjectViewHolder extends RecyclerView.ViewHolder {
-
         TextView tvSubjectName, tvRoom, tvStartTime, tvEndTime;
         Button btnNote;
 
-        public SubjectViewHolder(@NonNull View itemView, OnNoteClickListener listener) {
+        public SubjectViewHolder(@NonNull View itemView) {
             super(itemView);
             tvSubjectName = itemView.findViewById(R.id.tvSubjectName);
             tvRoom = itemView.findViewById(R.id.tvRoom);
             tvStartTime = itemView.findViewById(R.id.tvStartTime);
             tvEndTime = itemView.findViewById(R.id.tvEndTime);
             btnNote = itemView.findViewById(R.id.btnNote);
-
-            btnNote.setOnClickListener(v -> {
-                if (listener != null) {
-                    int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION) {
-                        listener.onNoteClick(pos);
-                    }
-                }
-            });
         }
     }
 }
