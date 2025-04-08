@@ -8,44 +8,49 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smtuapp.R;
 import com.example.smtuapp.adapters.SubjectAdapter;
 import com.example.smtuapp.models.Subject;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ScheduleActivity extends AppCompatActivity implements SubjectAdapter.OnNoteClickListener {
 
     private static final int REQUEST_CODE_ADD_NOTE = 1;
+
     private RecyclerView recyclerView;
     private SubjectAdapter adapter;
-    private List<Subject> subjectList;
+    private List<Subject> subjectList = new ArrayList<>();
     private LinearLayout dayCarousel;
     private TextView tvWeekType;
     private TextView tvGroupNumber;
     private BottomNavigationView bottomNavigationView;
     private MaterialToolbar topAppBar;
 
+    private Map<String, List<Subject>> scheduleByDay = new HashMap<>();
+
+    private String[] dayLabels = {"ПН", "ВТ", "СР", "ЧТ", "ПТ"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
-        // Инициализация компонентов
-        recyclerView = findViewById(R.id.rvSubjects);
-        tvWeekType = findViewById(R.id.tvWeekType);
-        tvGroupNumber = findViewById(R.id.tvGroupNumber);
-        bottomNavigationView = findViewById(R.id.bottomNavigation);
-        topAppBar = findViewById(R.id.topAppBar);
+        initViews();
+        initToolbar();
+        initRecyclerView();
 
-        // Настройка тулбара
-        topAppBar.setNavigationOnClickListener(v ->
-                Toast.makeText(this, "Открыть настройки", Toast.LENGTH_SHORT).show());
+        tvWeekType.setText("Верхняя неделя");
+        tvGroupNumber.setText("Группа 20150");
 
 //        topAppBar.setOnMenuItemClickListener(item -> {
 //            if (item.getItemId() == R.id.action_search) {
@@ -75,70 +80,74 @@ public class ScheduleActivity extends AppCompatActivity implements SubjectAdapte
 //            }
 //        });
 
-        // Настройка списка пар
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        subjectList = getDummySubjects();
-        adapter = new SubjectAdapter(this, subjectList, this);
-        recyclerView.setAdapter(adapter);
-
-        // Пример заполнения блока с неделей и группой
-        tvWeekType.setText("Верхняя неделя");
-        tvGroupNumber.setText("Группа 20150");
-
-        // Добавление дней недели в карусель
-        //TODO ЛОМАЕТ ПРИЛОЖЕНИЕ
-//        addDaysToCarousel();
+        setupWeeklySchedule();       // Наполняем расписание
+        addDaysToCarousel();         // Динамически добавляем дни
+        loadSubjectsForDay("ПН");    // Загружаем ПН по умолчанию
     }
 
-    private void addDaysToCarousel() {
-        String[] days = {"ПН", "ВТ", "СР", "ЧТ", "ПТ"};
-        String[] dates = {"07.02", "08.02", "09.02", "10.02", "11.02"};
+    private void initViews() {
+        recyclerView = findViewById(R.id.rvSubjects);
+        dayCarousel = findViewById(R.id.dayCarousel);
+        tvWeekType = findViewById(R.id.tvWeekType);
+        tvGroupNumber = findViewById(R.id.tvGroupNumber);
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        topAppBar = findViewById(R.id.topAppBar);
+    }
 
-        for (int i = 0; i < days.length; i++) {
-            LinearLayout dayItem = new LinearLayout(this);
-            dayItem.setOrientation(LinearLayout.VERTICAL);
-            dayItem.setGravity(Gravity.CENTER);
-            dayItem.setPadding(16, 16, 16, 16);
+    private void initToolbar() {
+        topAppBar.setNavigationOnClickListener(v ->
+                Toast.makeText(this, "Открыть настройки", Toast.LENGTH_SHORT).show());
+    }
 
-            TextView tvDay = new TextView(this);
-            tvDay.setText(days[i]);
-            tvDay.setTextSize(16);
-            tvDay.setTextColor(getResources().getColor(R.color.black));
+    private void initRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new SubjectAdapter(this, subjectList, this);
+        recyclerView.setAdapter(adapter);
+    }
 
-            TextView tvDate = new TextView(this);
-            tvDate.setText(dates[i]);
-            tvDate.setTextSize(14);
-            tvDate.setTextColor(getResources().getColor(R.color.black));
-
-            dayItem.addView(tvDay);
-            dayItem.addView(tvDate);
-
-            // Добавление дня в карусель
-            dayCarousel.addView(dayItem);
+    private void setupWeeklySchedule() {
+        for (String day : dayLabels) {
+            List<Subject> dailySchedule = new ArrayList<>();
+            dailySchedule.add(new Subject("Математика", "205", "", "08:30", "10:00"));
+            dailySchedule.add(new Subject("Физика", "302", "", "10:10", "11:40"));
+            scheduleByDay.put(day, dailySchedule);
         }
     }
 
-    private List<Subject> getDummySubjects() {
-        List<Subject> list = new ArrayList<>();
-        list.add(new Subject("Математика", "205", "Добавить заметку", "8:30", "10:00"));
-        list.add(new Subject("Физика", "301", "Добавить заметку", "10:10", "11:40"));
-        list.add(new Subject("Программирование", "101", "Добавить заметку", "11:50", "13:20"));
-        return list;
+    private void addDaysToCarousel() {
+        for (String day : dayLabels) {
+            TextView dayView = new TextView(this);
+            dayView.setText(day);
+            dayView.setPadding(32, 20, 32, 20);
+            dayView.setTextSize(16);
+            dayView.setGravity(Gravity.CENTER);
+            dayView.setTextColor(ContextCompat.getColor(this, R.color.black));
+            dayView.setBackgroundResource(R.drawable.day_background);
+
+            dayView.setOnClickListener(v -> {
+                loadSubjectsForDay(day);
+            });
+
+            dayCarousel.addView(dayView);
+        }
     }
 
-//    @Override
-//    public void onNoteClick(int position) {
-//        Subject subject = subjectList.get(position);
-//        Toast.makeText(this, "Заметка для: " + subject.getName(), Toast.LENGTH_SHORT).show();
-//
-//        // TODO: запускать активити редактирования заметкокк
-//    }
+    private void loadSubjectsForDay(String dayKey) {
+        List<Subject> subjects = scheduleByDay.get(dayKey);
+        subjectList.clear();
+
+        if (subjects != null) {
+            subjectList.addAll(subjects);
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onNoteClick(int position) {
         Subject subject = subjectList.get(position);
-
         Intent intent = new Intent(this, AddNoteActivity.class);
-        intent.putExtra("subject_position", position); // передаём позицию, чтобы знать, к какой паре добавлять заметку
+        intent.putExtra("subject_position", position);
         startActivityForResult(intent, REQUEST_CODE_ADD_NOTE);
     }
 
@@ -157,7 +166,4 @@ public class ScheduleActivity extends AppCompatActivity implements SubjectAdapte
             }
         }
     }
-
-
-
 }

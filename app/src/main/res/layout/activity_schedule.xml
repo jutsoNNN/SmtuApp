@@ -35,162 +35,21 @@
         <!-- Карусель дней недели -->
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            android:layout_marginTop="8dp">
+
             <LinearLayout
                 android:id="@+id/dayCarousel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center"
-                android:paddingHorizontal="8dp"
-                tools:ignore="DuplicateIds">
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tvDayOfWeek"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ПН"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tvDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="07.02"
-                        android:textSize="14sp"
-                        android:textColor="#666666"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tvDayOfWeek"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ВТ"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tvDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="08.02"
-                        android:textSize="14sp"
-                        android:textColor="#666666"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tvDayOfWeek"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="СР"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tvDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="09.02"
-                        android:textSize="14sp"
-                        android:textColor="#666666"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tvDayOfWeek"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ЧТ"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tvDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="10.02"
-                        android:textSize="14sp"
-                        android:textColor="#666666"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tvDayOfWeek"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ПТ"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tvDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="11.02"
-                        android:textSize="14sp"
-                        android:textColor="#666666"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tvDayOfWeek"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="СБ"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tvDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="12.02"
-                        android:textSize="14sp"
-                        android:textColor="#666666"/>
-                </LinearLayout>
+                android:weightSum="6">
+                <!-- Динамически добавляемые элементы дней недели -->
             </LinearLayout>
         </HorizontalScrollView>
+
 
         <!-- Тип недели и группа -->
         <LinearLayout
@@ -199,24 +58,26 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginTop="8dp">
+
             <TextView
                 android:id="@+id/tvWeekType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Верхняя неделя"
-                android:padding="8dp"/>
+                android:padding="8dp" />
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#CCCCCC"
-                android:layout_marginHorizontal="8dp"/>
+                android:layout_marginHorizontal="8dp" />
+
             <TextView
                 android:id="@+id/tvGroupNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Группа 1234"
-                android:padding="8dp"/>
-
+                android:padding="8dp" />
         </LinearLayout>
 
         <!-- Список пар -->
@@ -225,15 +86,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp" />
 
-
-        <!-- Нижняя панель -->
+        <!-- Нижняя панель навигации -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:menu="@menu/bottom_nav_menu"/>
+            app:menu="@menu/bottom_nav_menu" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
