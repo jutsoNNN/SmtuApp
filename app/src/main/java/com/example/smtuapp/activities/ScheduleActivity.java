@@ -52,33 +52,36 @@ public class ScheduleActivity extends AppCompatActivity implements SubjectAdapte
         tvWeekType.setText("Верхняя неделя");
         tvGroupNumber.setText("Группа 20150");
 
-//        topAppBar.setOnMenuItemClickListener(item -> {
-//            if (item.getItemId() == R.id.action_search) {
-//                Toast.makeText(this, "Поиск...", Toast.LENGTH_SHORT).show();
-//                return true;
-//            }
-//            return false;
-//        });
+        // Настройка нижней навигации
+        bottomNavigationView.setSelectedItemId(R.id.nav_schedule);  // Выделить "Расписание" по умолчанию
 
-//        // Настройка нижней навигации
-//        bottomNavigationView.setOnItemSelectedListener(item -> {
-//            switch (item.getItemId()) {
-//                case R.id.nav_schedule:
-//                    // на этом экране уже
-//                    return true;
-//                case R.id.nav_grades:
-//                    Toast.makeText(this, "Оценки", Toast.LENGTH_SHORT).show();
-//                    return true;
-//                case R.id.nav_news:
-//                    Toast.makeText(this, "Новости", Toast.LENGTH_SHORT).show();
-//                    return true;
-//                case R.id.nav_profile:
-//                    Toast.makeText(this, "Профиль", Toast.LENGTH_SHORT).show();
-//                    return true;
-//                default:
-//                    return false;
-//            }
-//        });
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_schedule) {
+                Toast.makeText(this, "Вы уже на этом экране", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (item.getItemId() == R.id.nav_navigation) {
+                Intent navigationIntent = new Intent(ScheduleActivity.this, NavigationActivity.class);
+                navigationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(navigationIntent);
+                finish();
+                return true;
+            } else if (item.getItemId() == R.id.nav_isu) {
+                Intent isuIntent = new Intent(ScheduleActivity.this, ISUActivity.class);
+                isuIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(isuIntent);
+                finish();
+                return true;
+            } else if (item.getItemId() == R.id.nav_services) {
+                Intent servicesIntent = new Intent(ScheduleActivity.this, ServicesActivity.class);
+                servicesIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(servicesIntent);
+                finish();
+                return true;
+            } else {
+                return false;
+            }
+        });
+
 
         setupWeeklySchedule();       // Наполняем расписание
         addDaysToCarousel();         // Динамически добавляем дни

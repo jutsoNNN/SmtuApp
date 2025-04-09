@@ -23,7 +23,9 @@
         </activity>
         <!--    Активити для заметок    -->
         <activity android:name=".activities.AddNoteActivity" />
-
+        <activity android:name=".activities.NavigationActivity"/>
+        <activity android:name=".activities.ISUActivity"/>
+        <activity android:name=".activities.ServicesActivity"/>
 
     </application>
 
