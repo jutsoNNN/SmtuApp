@@ -1,16 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Страница Сервисы"
-        android:textSize="24sp"
-        android:layout_gravity="center" />
+    <!-- Контент страницы -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Раздел "Сообщества" -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сообщества"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <!-- Пример кнопок в сетке -->
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Сообщество 1"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Сообщество 2"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Сообщество 3"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Сообщество 4"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Сообщество 5"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Сообщество 6"
+                    android:textColor="@android:color/white" />
+            </GridLayout>
+
+            <!-- Раздел "Полезные ссылки" -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Полезные ссылки"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:orientation="horizontal">
+
+                <!-- Пример кнопок в сетке -->
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Ссылка 1"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Ссылка 2"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Ссылка 3"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Ссылка 4"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Ссылка 5"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:layout_rowSpan="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_button"
+                    android:text="Ссылка 6"
+                    android:textColor="@android:color/white" />
+            </GridLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
