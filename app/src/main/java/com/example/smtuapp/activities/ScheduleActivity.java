@@ -19,6 +19,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,7 @@ public class ScheduleActivity extends AppCompatActivity implements SubjectAdapte
     private Map<String, List<Subject>> scheduleByDay = new HashMap<>();
 
     private String[] dayLabels = {"ПН", "ВТ", "СР", "ЧТ", "ПТ"};
+    private int selectedDayIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +120,18 @@ public class ScheduleActivity extends AppCompatActivity implements SubjectAdapte
     }
 
     private void addDaysToCarousel() {
-        for (String day : dayLabels) {
+        // Получаем текущий день недели, корректируем для индексации с понедельника (ПН - 0, ВТ - 1, ..., ВС - 6)
+        int currentDayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        // Преобразуем день недели так, чтобы ПН был 0, ВТ — 1, ..., СБ — 5, ВС — 6
+        if (currentDayOfWeek == Calendar.SUNDAY) {
+            currentDayOfWeek = 6; // Если воскресенье, то индекс 6
+        } else {
+            currentDayOfWeek -= 2; // Если не воскресенье, уменьшаем на 2, чтобы ПН был 0
+        }
+
+        for (int i = 0; i < dayLabels.length; i++) {
+            String day = dayLabels[i];
+
             TextView dayView = new TextView(this);
             dayView.setText(day);
             dayView.setPadding(32, 20, 32, 20);
@@ -127,13 +140,44 @@ public class ScheduleActivity extends AppCompatActivity implements SubjectAdapte
             dayView.setTextColor(ContextCompat.getColor(this, R.color.black));
             dayView.setBackgroundResource(R.drawable.day_background);
 
+            // Выделяем текущий день (сравниваем с currentDayOfWeek)
+            if (i == currentDayOfWeek) {
+                dayView.setTextColor(ContextCompat.getColor(this, R.color.white)); // белый текст
+                dayView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)); // фоновый цвет
+                selectedDayIndex = i; // Устанавливаем текущий день как выбранный
+            }
+
+            // Обработчик нажатия на день
+            int finalI = i;
             dayView.setOnClickListener(v -> {
+                // Обновляем выбранный день
+                selectedDayIndex = finalI;
                 loadSubjectsForDay(day);
+                updateDaySelection(); // Обновляем выделение
             });
 
             dayCarousel.addView(dayView);
         }
     }
+
+    // Метод для обновления выделения выбранного дня
+    private void updateDaySelection() {
+        for (int i = 0; i < dayCarousel.getChildCount(); i++) {
+            TextView dayView = (TextView) dayCarousel.getChildAt(i);
+
+            // Если это выбранный день, выделяем его
+            if (i == selectedDayIndex) {
+                dayView.setTextColor(ContextCompat.getColor(this, R.color.white)); // белый текст
+                dayView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)); // фоновый цвет
+            } else {
+                dayView.setTextColor(ContextCompat.getColor(this, R.color.black)); // обычный текст
+                dayView.setBackgroundResource(R.drawable.day_background); // стандартный фон
+            }
+        }
+    }
+
+
+
 
     private void loadSubjectsForDay(String dayKey) {
         List<Subject> subjects = scheduleByDay.get(dayKey);
